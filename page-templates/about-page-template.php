@@ -6,7 +6,6 @@
 <?php get_header(); ?>
 <?php get_template_part('/template-parts/about-page/hero-page') ?>
 
-
 <div class="container">
     <div class="row">
         <div class="col-md-10 offset-md-1">
@@ -14,19 +13,27 @@
                 <?php while (have_posts()) :
                     the_post();
                 ?>
-                    <div class="post <?php post_class(); ?>">
+                    <div <?php post_class(); ?> >
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-10 offset-md-1 text-center">
                                     <h2 class="post-title"><?php the_title(); ?></h2>
                                 </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-md-10 offset-md-1 text-center">
                                     <p>
                                         <strong><?php the_author(); ?></strong><br />
                                         <?php echo get_the_date(); ?>
                                     </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col-md-10 offset-md-1 text-center">
+                                    <p>
+                                        <strong><?php the_author(); ?></strong><br />
+                                        <?php echo get_the_date(); ?>
+                                    </p>
+                                </div> -->
+                                <div class="row">
                                 </div>
                                 <div class="col-md-10 offset-md-1">
                                     <?php if (has_post_thumbnail()) {

@@ -1,4 +1,9 @@
 <?php
+require_once get_theme_file_path('/inc/tgm.php');
+//attachments plugin configuration
+if (class_exists('Attachments')) {
+    require_once "lib/attachments.php";
+}
 
 if (site_url() == "http://localhost/wp") {
     define("VERSION", time());
@@ -23,9 +28,13 @@ function gfxweb_bootstrapping()
         'width'         => '100',
         'height'        => '100'
     );
+    add_theme_support('html5', array('search-form'));
     add_theme_support('custom-header', $gfxweb_custom_header_details);
     add_theme_support('custom-logo', $gfxweb_custom_logo_default);
     add_theme_support('custom-background');
+    add_theme_support('post-formats', array('image', 'video', 'audio', 'quote', 'chat '));
+
+    add_image_size('gfxweb_square', 400, 400, true);
 }
 
 add_action("after_setup_theme", "gfxweb_bootstrapping");
@@ -33,10 +42,14 @@ add_action("after_setup_theme", "gfxweb_bootstrapping");
 
 function gfxweb_assets()
 {
-    wp_enqueue_style("gfxweb-css", get_stylesheet_uri(), null, VERSION);
     wp_enqueue_style("bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
     wp_enqueue_style("featherlight-css", "//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.css");
+    wp_enqueue_style('dashicon');
+    wp_enqueue_style("tns-style", "//cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.4/tiny-slider.css", null);
+    wp_enqueue_style("gfxweb-css", get_stylesheet_uri(), null, VERSION);
+
     wp_enqueue_script("fetherlight-js", "//cdn.jsdelivr.net/npm/featherlight@1.7.14/release/featherlight.min.js", array("jquery"), "0.0.1", true);
+    wp_enqueue_script("tns-js", "//cdnjs.cloudflare.com/ajax/libs/tiny-slider/2.9.2/min/tiny-slider.js", null, null, true);
     wp_enqueue_script('main-js', get_theme_file_uri("/assets/js/main.js"), array("jquery", "fetherlight-js"), VERSION, true);
 };
 add_action("wp_enqueue_scripts", "gfxweb_assets");
@@ -139,6 +152,15 @@ function gfxweb_about_page_template()
 }
 add_action("wp_head", "gfxweb_about_page_template", 100);
 
+//Remove class form body tag
+function gfxweb_body_class($classes)
+{
+    unset($classes[array_search("custom-background", $classes)]);
+    unset($classes[array_search("grx-web", $classes)]);
+    $classes[] = 'gfxhouse';
+    return $classes;
+}
+add_filter("body_class", "gfxweb_body_class");
 
 // Replace the default [...] with 'Read more' text wrapped in a link
 function custom_excerpt_more()
@@ -146,3 +168,19 @@ function custom_excerpt_more()
     return ' <a class="read-more" href="' . get_permalink() . '">' . __('Read more', 'gfxweb') . '</a>';
 }
 add_filter('excerpt_more', 'custom_excerpt_more');
+
+//Highlisht Search Result
+function gfxweb_highlight_search_results($text)
+{
+    if (is_search()) {
+        $search_terms = explode(' ', get_search_query());
+        $pattern = '/\b(' . implode('|', array_map('preg_quote', $search_terms)) . ')\b/i';
+        $text = preg_replace($pattern, '<span class="search-highlight">\0</span>', $text);
+    }
+    return $text;
+}
+add_filter('the_content', 'gfxweb_highlight_search_results');
+add_filter('the_title', 'gfxweb_highlight_search_results');
+add_filter('the_excerpt', 'gfxweb_highlight_search_results');
+
+

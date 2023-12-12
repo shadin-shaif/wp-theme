@@ -31,4 +31,21 @@
             </div>
         </div>
     </div>
+    <!-- Search Form -->
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <?php echo get_search_form();
+
+
+                if (is_search()) :
+                ?>
+                    <h5><?php _e('You search for: ', 'gfxweb');
+                        the_search_query(); ?></h5>
+                <?php
+                endif;
+                ?>
+            </div>
+        </div>
+    </div>
 </div>

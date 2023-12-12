@@ -1,9 +1,16 @@
 <?php get_header(); ?>
 <?php get_template_part('/template-parts/common/hero') ?>
-<div class="posts">
+<div class="posts text-center">
+    <div class="headline">
+        <h2> <?php single_cat_title("Post Under: ", true); ?></h2>
+    </div>
     <?php while (have_posts()) {
         the_post();
-        get_template_part('post-formats/content', get_post_format());
+    ?>
+        <a href="<?php the_permalink(); ?>">
+            <h2><?php the_title(); ?></h2>
+        </a>
+    <?php
     } ?>
 
 </div>
