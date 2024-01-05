@@ -13,12 +13,6 @@
                 if (is_active_sidebar("footer-right")) {
                     dynamic_sidebar("footer-right");
                 };
-
-                wp_nav_menu(array(
-                    'theme_location'     => 'footer-menu',
-                    'menu_id'            => 'footer-menu',
-                    'menu_class'         => 'list-inline text-right',
-                ));
                 ?>
             </div>
         </div>

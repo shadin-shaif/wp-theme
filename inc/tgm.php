@@ -42,21 +42,28 @@ function gfxweb_register_required_plugins() {
 	 * If the source is NOT from the .org repo, then source is also required.
 	 */
 	$plugins = array(
-
-		// This is an example of how to include a plugin from the WordPress Plugin Repository.
 		array(
 			'name'      => 'ACF',
 			'slug'      => 'advanced-custom-fields',
 			'required'  => false,
+		),array(
+			'name'      => 'Post Meta Inspector',
+			'slug'      => 'post-meta-inspector',
+			'required'  => false,
+		),array(
+			'name'      => 'CMB2',
+			'slug'      => 'cmb2',
+			'required'  => false,
+		),array(
+			'name'      => 'cmb2-conditionals',
+			'slug'      => 'cmb2-conditionals',
+			'source'    => 'https://github.com/jcchavezs/cmb2-conditionals/archive/refs/heads/master.zip',
 		),
-
-
 	);
-
-
+	
 	$config = array(
-		'id'           => 'gfxweb',                 // Unique ID for hashing notices for multiple instances of TGMPA.
-		'default_path' => '',                      // Default absolute path to bundled plugins.
+		'id'           => 'gfxweb',                 
+		'default_path' => '',                      
 		'menu'         => 'tgmpa-install-plugins', // Menu slug.
 		'has_notices'  => true,                    // Show admin notices or not.
 		'dismissable'  => true,                    // If false, a user cannot dismiss the nag message.

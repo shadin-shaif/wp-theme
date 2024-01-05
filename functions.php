@@ -1,5 +1,8 @@
 <?php
 require_once get_theme_file_path('/inc/tgm.php');
+// require_once get_theme_file_path('/inc/acf-mb.php'); //CMB-2 Activated
+require_once get_theme_file_path('/inc/cmb2-mb.php');
+
 //attachments plugin configuration
 if (class_exists('Attachments')) {
     require_once "lib/attachments.php";
@@ -39,7 +42,7 @@ function gfxweb_bootstrapping()
 
 add_action("after_setup_theme", "gfxweb_bootstrapping");
 
-
+// Enqueue Assets
 function gfxweb_assets()
 {
     wp_enqueue_style("bootstrap", "//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css");
@@ -137,7 +140,6 @@ function gfxweb_about_page_template()
                 h3.tagline,
                 h1.heading {
                     color: #<?php echo get_header_textcolor(); ?>;
-
                     <?php
                     if (!display_header_text()) {
                         echo "display: none;";
@@ -183,4 +185,6 @@ add_filter('the_content', 'gfxweb_highlight_search_results');
 add_filter('the_title', 'gfxweb_highlight_search_results');
 add_filter('the_excerpt', 'gfxweb_highlight_search_results');
 
+//Hide ACF Options Form Admin Deshboard
+add_filter('acf/settings/show_admin', '__return_false');
 
